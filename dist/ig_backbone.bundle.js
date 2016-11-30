@@ -1907,15 +1907,15 @@ _.prototype.valueOf=_.prototype.toJSON=_.prototype.value;_.prototype.toString=fu
 var root$2=typeof self=='object'&&self.self===self&&self||typeof global=='object'&&global.global===global&&global;
 var previousBackbone=root$2.Backbone;
 var slice$2=Array.prototype.slice;
-var Backbone$1={VERSION:'1.3.3-es6'};// Initial Setup
+var Backbone$2={VERSION:'1.3.3-es6'};// Initial Setup
 // -------------
 // Create a local reference to a common array method we'll want to use later.
 // Current version of the library. Keep in sync with `package.json`.
 // For Backbone's purposes, jQuery, Zepto, Ender, or My Library (kidding) owns
 // the `$` variable.
-Backbone$1.$=jQuery;// Runs Backbone.js in *noConflict* mode, returning the `Backbone` variable
+Backbone$2.$=jQuery;// Runs Backbone.js in *noConflict* mode, returning the `Backbone` variable
 // to its previous owner. Returns a reference to this Backbone object.
-Backbone$1.noConflict=function(){root$2.Backbone=previousBackbone;return this;};// Proxy Backbone class methods to Underscore functions, wrapping the model's
+Backbone$2.noConflict=function(){root$2.Backbone=previousBackbone;return this;};// Proxy Backbone class methods to Underscore functions, wrapping the model's
 // `attributes` object or collection's `models` array behind the scenes.
 //
 // collection.filter(function(model) { return model.get('age') > 10 });
@@ -1933,11 +1933,11 @@ var wrapError=function wrapError(model,options){var error=options.error;options.
 // Turn on `emulateHTTP` to support legacy HTTP servers. Setting this option
 // will fake `"PATCH"`, `"PUT"` and `"DELETE"` requests via the `_method` parameter and
 // set a `X-Http-Method-Override` header.
-Backbone$1.emulateHTTP=false;// Turn on `emulateJSON` to support legacy servers that can't deal with direct
+Backbone$2.emulateHTTP=false;// Turn on `emulateJSON` to support legacy servers that can't deal with direct
 // `application/json` requests ... this will encode the body as
 // `application/x-www-form-urlencoded` instead and will send the model in a
 // form param named `model`.
-Backbone$1.emulateJSON=false;// Map from CRUD to HTTP for our default `Backbone.sync` implementation.
+Backbone$2.emulateJSON=false;// Map from CRUD to HTTP for our default `Backbone.sync` implementation.
 var methodMap={'create':'POST','update':'PUT','patch':'PATCH','delete':'DELETE','read':'GET'};// Backbone.sync
 // -------------
 // Override this function to change the manner in which Backbone persists
@@ -1955,8 +1955,8 @@ var methodMap={'create':'POST','update':'PUT','patch':'PATCH','delete':'DELETE',
 // instead of `application/json` with the model in a param named `model`.
 // Useful when interfacing with server-side languages like **PHP** that make
 // it difficult to read the body of `PUT` requests.
-Backbone$1.sync=function(method,model,options){var type=methodMap[method];// Default options, unless specified.
-_.defaults(options||(options={}),{emulateHTTP:Backbone$1.emulateHTTP,emulateJSON:Backbone$1.emulateJSON});// Default JSON-request options.
+Backbone$2.sync=function(method,model,options){var type=methodMap[method];// Default options, unless specified.
+_.defaults(options||(options={}),{emulateHTTP:Backbone$2.emulateHTTP,emulateJSON:Backbone$2.emulateJSON});// Default JSON-request options.
 var params={type:type,dataType:'json'};// Ensure that we have a URL.
 if(!options.url){params.url=_.result(model,'url')||urlError();}// Ensure that we have the appropriate request data.
 if(options.data==null&&model&&(method==='create'||method==='update'||method==='patch')){params.contentType='application/json';params.data=JSON.stringify(options.attrs||model.toJSON(options));}// For older servers, emulate JSON by encoding the request into an HTML-form.
@@ -1965,9 +1965,9 @@ if(options.emulateJSON){params.contentType='application/x-www-form-urlencoded';p
 if(options.emulateHTTP&&(type==='PUT'||type==='DELETE'||type==='PATCH')){params.type='POST';if(options.emulateJSON)params.data._method=type;var beforeSend=options.beforeSend;options.beforeSend=function(xhr){xhr.setRequestHeader('X-HTTP-Method-Override',type);if(beforeSend)return beforeSend.apply(this,arguments);};}// Don't process data on a non-GET request.
 if(params.type!=='GET'&&!options.emulateJSON){params.processData=false;}// Pass along `textStatus` and `errorThrown` from jQuery.
 var error=options.error;options.error=function(xhr,textStatus,errorThrown){options.textStatus=textStatus;options.errorThrown=errorThrown;if(error)error.call(options.context,xhr,textStatus,errorThrown);};// Make the request, allowing the user to override any Ajax options.
-var xhr=options.xhr=Backbone$1.ajax(_.extend(params,options));model.trigger('request',model,xhr,options);return xhr;};// Set the default implementation of `Backbone.ajax` to proxy through to `$`.
+var xhr=options.xhr=Backbone$2.ajax(_.extend(params,options));model.trigger('request',model,xhr,options);return xhr;};// Set the default implementation of `Backbone.ajax` to proxy through to `$`.
 // Override this if you'd like to use a different library.
-Backbone$1.ajax=function(){return Backbone$1.$.ajax.apply(Backbone$1.$,arguments);};
+Backbone$2.ajax=function(){return Backbone$2.$.ajax.apply(Backbone$2.$,arguments);};
 
 // ---------------
 // A module that can be mixed in to *any object* in order to provide it with
@@ -1980,7 +1980,7 @@ Backbone$1.ajax=function(){return Backbone$1.$.ajax.apply(Backbone$1.$,arguments
 //     object.on('expand', function(){ alert('expanded'); });
 //     object.trigger('expand');
 //
-var Events=Backbone$1.Events={};
+var Events=Backbone$2.Events={};
 var eventSplitter=/\s+/;
 var eventsApi=function eventsApi(iteratee,events,name,callback,opts){var i=0,names;if(name&&typeof name==='object'){// Handle event maps.
 if(callback!==void 0&&'context'in opts&&opts.context===void 0)opts.context=callback;for(names=_.keys(name);i<names.length;i++){events=eventsApi(iteratee,events,names[i],name[names[i]],opts);}}else if(name&&eventSplitter.test(name)){// Handle space-separated event names by delegating them individually.
@@ -2054,7 +2054,7 @@ preinitialize:function preinitialize(){},// Initialize is an empty function by d
 initialize:function initialize(){},// Return a copy of the model's `attributes` object.
 toJSON:function toJSON(options){return _.clone(this.attributes);},// Proxy `Backbone.sync` by default -- but override this if you need
 // custom syncing semantics for *this* particular model.
-sync:function sync(){return Backbone$1.sync.apply(this,arguments);},// Get the value of an attribute.
+sync:function sync(){return Backbone$2.sync.apply(this,arguments);},// Get the value of an attribute.
 get:function get(attr){return this.attributes[attr];},// Get the HTML-escaped value of an attribute.
 escape:function escape(attr){return _.escape(this.get(attr));},// Returns `true` if the attribute contains a value that is not null
 // or undefined.
@@ -2144,7 +2144,7 @@ preinitialize:function preinitialize(){},// Initialize is an empty function by d
 initialize:function initialize(){},// The JSON representation of a Collection is an array of the
 // models' attributes.
 toJSON:function toJSON(options){return this.map(function(model){return model.toJSON(options);});},// Proxy `Backbone.sync` by default.
-sync:function sync(){return Backbone$1.sync.apply(this,arguments);},// Add a model, or list of models to the set. `models` may be Backbone
+sync:function sync(){return Backbone$2.sync.apply(this,arguments);},// Add a model, or list of models to the set. `models` may be Backbone
 // Models or raw JavaScript objects to be converted to Models, or any
 // combination of the two.
 add:function add(models,options){return this.set(models,_.extend({merge:false},options,addOptions));},// Remove a model, or a list of models from the set.
@@ -2252,7 +2252,7 @@ setElement:function setElement(element){this.undelegateEvents();this._setElement
 // context or an element. Subclasses can override this to utilize an
 // alternative DOM manipulation API and are only required to set the
 // `this.el` property.
-_setElement:function _setElement(el){this.$el=el instanceof Backbone$1.$?el:Backbone$1.$(el);this.el=this.$el[0];},// Set callbacks, where `this.events` is a hash of
+_setElement:function _setElement(el){this.$el=el instanceof Backbone$2.$?el:Backbone$2.$(el);this.el=this.$el[0];},// Set callbacks, where `this.events` is a hash of
 //
 // *{"event selector": "callback"}*
 //
@@ -2303,10 +2303,10 @@ initialize:function initialize(){},// Manually bind a single named route to a ca
 //       ...
 //     });
 //
-route:function route(_route,name,callback){if(!_.isRegExp(_route))_route=this._routeToRegExp(_route);if(_.isFunction(name)){callback=name;name='';}if(!callback)callback=this[name];var router=this;Backbone$1.history.route(_route,function(fragment){var args=router._extractParameters(_route,fragment);if(router.execute(callback,args,name)!==false){router.trigger.apply(router,['route:'+name].concat(args));router.trigger('route',name,args);Backbone$1.history.trigger('route',router,name,args);}});return this;},// Execute a route handler with the provided parameters.  This is an
+route:function route(_route,name,callback){if(!_.isRegExp(_route))_route=this._routeToRegExp(_route);if(_.isFunction(name)){callback=name;name='';}if(!callback)callback=this[name];var router=this;Backbone$2.history.route(_route,function(fragment){var args=router._extractParameters(_route,fragment);if(router.execute(callback,args,name)!==false){router.trigger.apply(router,['route:'+name].concat(args));router.trigger('route',name,args);Backbone$2.history.trigger('route',router,name,args);}});return this;},// Execute a route handler with the provided parameters.  This is an
 // excellent place to do pre-route setup or post-route cleanup.
 execute:function execute(callback,args,name){if(callback)callback.apply(this,args);},// Simple proxy to `Backbone.history` to save a fragment into the history.
-navigate:function navigate(fragment,options){Backbone$1.history.navigate(fragment,options);return this;},// Bind all defined routes to `Backbone.history`. We have to reverse the
+navigate:function navigate(fragment,options){Backbone$2.history.navigate(fragment,options);return this;},// Bind all defined routes to `Backbone.history`. We have to reverse the
 // order of the routes here to support behavior where the most general
 // routes can be defined at the bottom of the route map.
 _bindRoutes:function _bindRoutes(){if(!this.routes)return;this.routes=_.result(this,'routes');var route,routes=_.keys(this.routes);while((route=routes.pop())!=null){this.route(route,this.routes[route]);}},// Convert a route string into a regular expression, suitable for matching
@@ -2410,7 +2410,7 @@ location.hash='#'+fragment;}}});
 //     For all details and documentation:
 //     http://backbonejs.org
 // want global "pubsub" in a convenient place.
-_.extend(Backbone$1,Events);// Helpers
+_.extend(Backbone$2,Events);// Helpers
 // -------
 // Helper function to correctly set up the prototype chain for subclasses.
 // Similar to `goog.inherits`, but uses a hash of prototype properties and
@@ -2424,8 +2424,8 @@ _.extend(child,parent,staticProps);// Set the prototype chain to inherit from `p
 child.prototype=_.create(parent.prototype,protoProps);child.prototype.constructor=child;// Set a convenience property in case the parent's prototype is needed
 // later.
 child.__super__=parent.prototype;return child;};// Set up inheritance for the model, collection, router, view and history.
-Model.extend=Collection.extend=Router.extend=View.extend=History.extend=extend;Backbone$1.Model=Model;Backbone$1.Collection=Collection;Backbone$1.View=View;Backbone$1.Router=Router;Backbone$1.History=History;// Create the default Backbone.history.
-Backbone$1.history=new History();
+Model.extend=Collection.extend=Router.extend=View.extend=History.extend=extend;Backbone$2.Model=Model;Backbone$2.Collection=Collection;Backbone$2.View=View;Backbone$2.Router=Router;Backbone$2.History=History;// Create the default Backbone.history.
+Backbone$2.history=new History();
 
 /**
  * Backbone localStorage Adapter
@@ -2454,14 +2454,14 @@ for(var k in local){if(itemRe.test(k)){local.removeItem(k);}}this.records.length
 _storageSize:function _storageSize(){return this.localStorage().length;},_itemName:function _itemName(id){return this.name+"-"+id;}});// localSync delegate to the model or collection's
 // *localStorage* property, which should be an instance of `Store`.
 // window.Store.sync and Backbone.localSync is deprecated, use Backbone.LocalStorage.sync instead
-LocalStorage.sync=window.Store.sync=Backbone$1.localSync=function(method,model,options){var store=result$1(model,'localStorage')||result$1(model.collection,'localStorage'),resp,errorMessage,syncDfd=Backbone$1.$?Backbone$1.$.Deferred&&Backbone$1.$.Deferred():Backbone$1.Deferred&&Backbone$1.Deferred();//If $ is having Deferred - use it.
-try{switch(method){case"read":resp=model.id!=undefined?store.find(model):store.findAll();break;case"create":resp=store.create(model);break;case"update":resp=store.update(model);break;case"delete":resp=store.destroy(model);break;}}catch(error){if(error.code===22&&store._storageSize()===0)errorMessage="Private browsing is unsupported";else errorMessage=error.message;}if(resp){if(options&&options.success){if(Backbone$1.VERSION==="0.9.10"){options.success(model,resp,options);}else{options.success(resp);}}if(syncDfd){syncDfd.resolve(resp);}}else{errorMessage=errorMessage?errorMessage:"Record Not Found";if(options&&options.error)if(Backbone$1.VERSION==="0.9.10"){options.error(model,errorMessage,options);}else{options.error(errorMessage);}if(syncDfd)syncDfd.reject(errorMessage);}// add compatibility with $.ajax
+LocalStorage.sync=window.Store.sync=Backbone$2.localSync=function(method,model,options){var store=result$1(model,'localStorage')||result$1(model.collection,'localStorage'),resp,errorMessage,syncDfd=Backbone$2.$?Backbone$2.$.Deferred&&Backbone$2.$.Deferred():Backbone$2.Deferred&&Backbone$2.Deferred();//If $ is having Deferred - use it.
+try{switch(method){case"read":resp=model.id!=undefined?store.find(model):store.findAll();break;case"create":resp=store.create(model);break;case"update":resp=store.update(model);break;case"delete":resp=store.destroy(model);break;}}catch(error){if(error.code===22&&store._storageSize()===0)errorMessage="Private browsing is unsupported";else errorMessage=error.message;}if(resp){if(options&&options.success){if(Backbone$2.VERSION==="0.9.10"){options.success(model,resp,options);}else{options.success(resp);}}if(syncDfd){syncDfd.resolve(resp);}}else{errorMessage=errorMessage?errorMessage:"Record Not Found";if(options&&options.error)if(Backbone$2.VERSION==="0.9.10"){options.error(model,errorMessage,options);}else{options.error(errorMessage);}if(syncDfd)syncDfd.reject(errorMessage);}// add compatibility with $.ajax
 // always execute callback for success and error
-if(options&&options.complete)options.complete(resp);return syncDfd&&syncDfd.promise();};Backbone$1.ajaxSync=Backbone$1.sync;Backbone$1.getSyncMethod=function(model,options){var forceAjaxSync=options&&options.ajaxSync;if(!forceAjaxSync&&(result$1(model,'localStorage')||result$1(model.collection,'localStorage'))){return Backbone$1.localSync;}return Backbone$1.ajaxSync;};// Override 'Backbone.sync' to default to localSync,
+if(options&&options.complete)options.complete(resp);return syncDfd&&syncDfd.promise();};Backbone$2.ajaxSync=Backbone$2.sync;Backbone$2.getSyncMethod=function(model,options){var forceAjaxSync=options&&options.ajaxSync;if(!forceAjaxSync&&(result$1(model,'localStorage')||result$1(model.collection,'localStorage'))){return Backbone$2.localSync;}return Backbone$2.ajaxSync;};// Override 'Backbone.sync' to default to localSync,
 // the original 'Backbone.sync' is still available in 'Backbone.ajaxSync'
-Backbone$1.sync=function(method,model,options){return Backbone$1.getSyncMethod(model,options).apply(this,[method,model,options]);};Backbone$1.LocalStorage=LocalStorage;
+Backbone$2.sync=function(method,model,options){return Backbone$2.getSyncMethod(model,options).apply(this,[method,model,options]);};Backbone$2.LocalStorage=LocalStorage;
 
-var __bind=function __bind(fn,me){return function(){return fn.apply(me,arguments);};}; var __hasProp={}.hasOwnProperty; var __extends=function __extends(child,parent){for(var key in parent){if(__hasProp.call(parent,key))child[key]=parent[key];}function ctor(){this.constructor=child;}ctor.prototype=parent.prototype;child.prototype=new ctor();child.__super__=parent.prototype;return child;}; var __indexOf=[].indexOf||function(item){for(var i=0,l=this.length;i<l;i++){if(i in this&&this[i]===item)return i;}return-1;}; var Modal=function(_super){__extends(Modal,_super);Modal.prototype.prefix='bbm';Modal.prototype.animate=true;Modal.prototype.keyControl=true;Modal.prototype.showViewOnRender=true;function Modal(){this.triggerCancel=__bind(this.triggerCancel,this);this.triggerSubmit=__bind(this.triggerSubmit,this);this.triggerView=__bind(this.triggerView,this);this.clickOutsideElement=__bind(this.clickOutsideElement,this);this.clickOutside=__bind(this.clickOutside,this);this.checkKey=__bind(this.checkKey,this);this.rendererCompleted=__bind(this.rendererCompleted,this);this.args=Array.prototype.slice.apply(arguments);Backbone$1.View.prototype.constructor.apply(this,this.args);this.setUIElements();}Modal.prototype.render=function(options){var data,_ref;data=this.serializeData();if(!options||_.isEmpty(options)){options=0;}this.$el.addClass(""+this.prefix+"-wrapper");this.modalEl=Backbone$1.$('<div />').addClass(""+this.prefix+"-modal");if(this.template){this.modalEl.html(this.buildTemplate(this.template,data));}this.$el.html(this.modalEl);if(this.viewContainer){this.viewContainerEl=this.modalEl.find(this.viewContainer);this.viewContainerEl.addClass(""+this.prefix+"-modal__views");}else{this.viewContainerEl=this.modalEl;}Backbone$1.$(':focus').blur();if(((_ref=this.views)!=null?_ref.length:void 0)>0&&this.showViewOnRender){this.openAt(options);}if(typeof this.onRender==="function"){this.onRender();}this.delegateModalEvents();if(this.$el.velocity&&this.animate){this.modalEl.css({opacity:0});this.$el.velocity('fadeIn',{duration:100,complete:this.rendererCompleted});}else{this.rendererCompleted();}return this;};Modal.prototype.rendererCompleted=function(){var _ref;if(this.keyControl){Backbone$1.$('body').on('keyup.bbm',this.checkKey);this.$el.on('mouseup.bbm',this.clickOutsideElement);this.$el.on('click.bbm',this.clickOutside);}this.modalEl.css({opacity:1}).addClass(""+this.prefix+"-modal--open");if(typeof this.onShow==="function"){this.onShow();}return(_ref=this.currentView)!=null?typeof _ref.onShow==="function"?_ref.onShow():void 0:void 0;};Modal.prototype.setUIElements=function(){var _ref;this.template=this.getOption('template');this.views=this.getOption('views');if((_ref=this.views)!=null){_ref.length=_.size(this.views);}this.viewContainer=this.getOption('viewContainer');this.animate=this.getOption('animate');if(_.isUndefined(this.template)&&_.isUndefined(this.views)){throw new Error('No template or views defined for Backbone.Modal');}if(this.template&&this.views&&_.isUndefined(this.viewContainer)){throw new Error('No viewContainer defined for Backbone.Modal');}};Modal.prototype.getOption=function(option){if(!option){return;}if(this.options&&__indexOf.call(this.options,option)>=0&&this.options[option]!=null){return this.options[option];}else{return this[option];}};Modal.prototype.serializeData=function(){var data;data={};if(this.model){data=_.extend(data,this.model.toJSON());}if(this.collection){data=_.extend(data,{items:this.collection.toJSON()});}return data;};Modal.prototype.delegateModalEvents=function(){var cancelEl,key,match,selector,submitEl,trigger,_results;this.active=true;cancelEl=this.getOption('cancelEl');submitEl=this.getOption('submitEl');if(submitEl){this.$el.on('click',submitEl,this.triggerSubmit);}if(cancelEl){this.$el.on('click',cancelEl,this.triggerCancel);}_results=[];for(key in this.views){if(_.isString(key)&&key!=='length'){match=key.match(/^(\S+)\s*(.*)$/);trigger=match[1];selector=match[2];_results.push(this.$el.on(trigger,selector,this.views[key],this.triggerView));}else{_results.push(void 0);}}return _results;};Modal.prototype.undelegateModalEvents=function(){var cancelEl,key,match,selector,submitEl,trigger,_results;this.active=false;cancelEl=this.getOption('cancelEl');submitEl=this.getOption('submitEl');if(submitEl){this.$el.off('click',submitEl,this.triggerSubmit);}if(cancelEl){this.$el.off('click',cancelEl,this.triggerCancel);}_results=[];for(key in this.views){if(_.isString(key)&&key!=='length'){match=key.match(/^(\S+)\s*(.*)$/);trigger=match[1];selector=match[2];_results.push(this.$el.off(trigger,selector,this.views[key],this.triggerView));}else{_results.push(void 0);}}return _results;};Modal.prototype.checkKey=function(e){if(this.active){switch(e.keyCode){case 27:return this.triggerCancel(e);case 13:return this.triggerSubmit(e);}}};Modal.prototype.clickOutside=function(e){var _ref;if(((_ref=this.outsideElement)!=null?_ref.hasClass(""+this.prefix+"-wrapper"):void 0)&&this.active){return this.triggerCancel();}};Modal.prototype.clickOutsideElement=function(e){return this.outsideElement=Backbone$1.$(e.target);};Modal.prototype.buildTemplate=function(template,data){var templateFunction;if(typeof template==='function'){templateFunction=template;}else{templateFunction=_.template(Backbone$1.$(template).html());}return templateFunction(data);};Modal.prototype.buildView=function(viewType,options){var view;if(!viewType){return;}if(options&&_.isFunction(options)){options=options();}if(_.isFunction(viewType)){view=new viewType(options||this.args[0]);if(view instanceof Backbone$1.View){return{el:view.render().$el,view:view};}else{return{el:viewType(options||this.args[0])};}}return{view:viewType,el:viewType.$el};};Modal.prototype.triggerView=function(e){var index,instance,key,options,_base,_base1,_ref;if(e!=null){if(typeof e.preventDefault==="function"){e.preventDefault();}}options=e.data;instance=this.buildView(options.view,options.viewOptions);if(this.currentView){this.previousView=this.currentView;if(!((_ref=options.openOptions)!=null?_ref.skipSubmit:void 0)){if((typeof(_base=this.previousView).beforeSubmit==="function"?_base.beforeSubmit(e):void 0)===false){return;}if(typeof(_base1=this.previousView).submit==="function"){_base1.submit();}}}this.currentView=instance.view||instance.el;index=0;for(key in this.views){if(options.view===this.views[key].view){this.currentIndex=index;}index++;}if(options.onActive){if(_.isFunction(options.onActive)){options.onActive(this);}else if(_.isString(options.onActive)){this[options.onActive].call(this,options);}}if(this.shouldAnimate){return this.animateToView(instance.el);}else{this.shouldAnimate=true;return this.$(this.viewContainerEl).html(instance.el);}};Modal.prototype.animateToView=function(view){var container,newHeight,previousHeight,style,tester,_base,_ref;style={position:'relative',top:-9999,left:-9999};tester=Backbone$1.$('<tester/>').css(style);tester.html(this.$el.clone().css(style));if(Backbone$1.$('tester').length!==0){Backbone$1.$('tester').replaceWith(tester);}else{Backbone$1.$('body').append(tester);}if(this.viewContainer){container=tester.find(this.viewContainer);}else{container=tester.find("."+this.prefix+"-modal");}container.removeAttr('style');previousHeight=container.outerHeight();container.html(view);newHeight=container.outerHeight();if(previousHeight===newHeight){this.$(this.viewContainerEl).html(view);if(typeof(_base=this.currentView).onShow==="function"){_base.onShow();}return(_ref=this.previousView)!=null?typeof _ref.destroy==="function"?_ref.destroy():void 0:void 0;}else{if(this.animate){this.$(this.viewContainerEl).css({opacity:0});return this.$(this.viewContainerEl).velocity({height:newHeight},100,function(_this){return function(){var _base1,_ref1;_this.$(_this.viewContainerEl).css({opacity:1}).removeAttr('style');_this.$(_this.viewContainerEl).html(view);if(typeof(_base1=_this.currentView).onShow==="function"){_base1.onShow();}return(_ref1=_this.previousView)!=null?typeof _ref1.destroy==="function"?_ref1.destroy():void 0:void 0;};}(this));}else{return this.$(this.viewContainerEl).css({height:newHeight}).html(view);}}};Modal.prototype.triggerSubmit=function(e){var _ref,_ref1;if(e!=null){e.preventDefault();}if(Backbone$1.$(e.target).is('textarea')){return;}if(this.beforeSubmit){if(this.beforeSubmit(e)===false){return;}}if(this.currentView&&this.currentView.beforeSubmit){if(this.currentView.beforeSubmit(e)===false){return;}}if(!this.submit&&!((_ref=this.currentView)!=null?_ref.submit:void 0)&&!this.getOption('submitEl')){return this.triggerCancel();}if((_ref1=this.currentView)!=null){if(typeof _ref1.submit==="function"){_ref1.submit();}}if(typeof this.submit==="function"){this.submit();}if(this.regionEnabled){return this.trigger('modal:destroy');}else{return this.destroy();}};Modal.prototype.triggerCancel=function(e){if(e!=null){e.preventDefault();}if(this.beforeCancel){if(this.beforeCancel()===false){return;}}if(typeof this.cancel==="function"){this.cancel();}if(this.regionEnabled){return this.trigger('modal:destroy');}else{return this.destroy();}};Modal.prototype.destroy=function(){var removeViews;Backbone$1.$('body').off('keyup.bbm',this.checkKey);this.$el.off('mouseup.bbm',this.clickOutsideElement);this.$el.off('click.bbm',this.clickOutside);Backbone$1.$('tester').remove();if(typeof this.onDestroy==="function"){this.onDestroy();}this.shouldAnimate=false;this.modalEl.addClass(""+this.prefix+"-modal--destroy");removeViews=function(_this){return function(){var _ref;if((_ref=_this.currentView)!=null){if(typeof _ref.remove==="function"){_ref.remove();}}return _this.remove();};}(this);if(this.$el.velocity&&this.animate){this.$el.velocity('fadeOut',{duration:200});return _.delay(function(){return removeViews();},200);}else{return removeViews();}};Modal.prototype.openAt=function(options){var atIndex,attr,i,key,view;if(_.isNumber(options)){atIndex=options;}else if(_.isNumber(options._index)){atIndex=options._index;}i=0;for(key in this.views){if(key!=='length'){if(_.isNumber(atIndex)){if(i===atIndex){view=this.views[key];}i++;}else if(_.isObject(options)){for(attr in this.views[key]){if(options[attr]===this.views[key][attr]){view=this.views[key];}}}}}if(view){this.currentIndex=_.indexOf(this.views,view);this.triggerView({data:_.extend(view,{openOptions:options})});}return this;};Modal.prototype.next=function(options){if(options==null){options={};}if(this.currentIndex+1<this.views.length){return this.openAt(_.extend(options,{_index:this.currentIndex+1}));}};Modal.prototype.previous=function(options){if(options==null){options={};}if(this.currentIndex-1<this.views.length-1){return this.openAt(_.extend(options,{_index:this.currentIndex-1}));}};return Modal;}(Backbone$1.View);Backbone$1.Modal=Modal;
+var __bind=function __bind(fn,me){return function(){return fn.apply(me,arguments);};}; var __hasProp={}.hasOwnProperty; var __extends=function __extends(child,parent){for(var key in parent){if(__hasProp.call(parent,key))child[key]=parent[key];}function ctor(){this.constructor=child;}ctor.prototype=parent.prototype;child.prototype=new ctor();child.__super__=parent.prototype;return child;}; var __indexOf=[].indexOf||function(item){for(var i=0,l=this.length;i<l;i++){if(i in this&&this[i]===item)return i;}return-1;}; var Modal=function(_super){__extends(Modal,_super);Modal.prototype.prefix='bbm';Modal.prototype.animate=true;Modal.prototype.keyControl=true;Modal.prototype.showViewOnRender=true;function Modal(){this.triggerCancel=__bind(this.triggerCancel,this);this.triggerSubmit=__bind(this.triggerSubmit,this);this.triggerView=__bind(this.triggerView,this);this.clickOutsideElement=__bind(this.clickOutsideElement,this);this.clickOutside=__bind(this.clickOutside,this);this.checkKey=__bind(this.checkKey,this);this.rendererCompleted=__bind(this.rendererCompleted,this);this.args=Array.prototype.slice.apply(arguments);Backbone$2.View.prototype.constructor.apply(this,this.args);this.setUIElements();}Modal.prototype.render=function(options){var data,_ref;data=this.serializeData();if(!options||_.isEmpty(options)){options=0;}this.$el.addClass(""+this.prefix+"-wrapper");this.modalEl=Backbone$2.$('<div />').addClass(""+this.prefix+"-modal");if(this.template){this.modalEl.html(this.buildTemplate(this.template,data));}this.$el.html(this.modalEl);if(this.viewContainer){this.viewContainerEl=this.modalEl.find(this.viewContainer);this.viewContainerEl.addClass(""+this.prefix+"-modal__views");}else{this.viewContainerEl=this.modalEl;}Backbone$2.$(':focus').blur();if(((_ref=this.views)!=null?_ref.length:void 0)>0&&this.showViewOnRender){this.openAt(options);}if(typeof this.onRender==="function"){this.onRender();}this.delegateModalEvents();if(this.$el.velocity&&this.animate){this.modalEl.css({opacity:0});this.$el.velocity('fadeIn',{duration:100,complete:this.rendererCompleted});}else{this.rendererCompleted();}return this;};Modal.prototype.rendererCompleted=function(){var _ref;if(this.keyControl){Backbone$2.$('body').on('keyup.bbm',this.checkKey);this.$el.on('mouseup.bbm',this.clickOutsideElement);this.$el.on('click.bbm',this.clickOutside);}this.modalEl.css({opacity:1}).addClass(""+this.prefix+"-modal--open");if(typeof this.onShow==="function"){this.onShow();}return(_ref=this.currentView)!=null?typeof _ref.onShow==="function"?_ref.onShow():void 0:void 0;};Modal.prototype.setUIElements=function(){var _ref;this.template=this.getOption('template');this.views=this.getOption('views');if((_ref=this.views)!=null){_ref.length=_.size(this.views);}this.viewContainer=this.getOption('viewContainer');this.animate=this.getOption('animate');if(_.isUndefined(this.template)&&_.isUndefined(this.views)){throw new Error('No template or views defined for Backbone.Modal');}if(this.template&&this.views&&_.isUndefined(this.viewContainer)){throw new Error('No viewContainer defined for Backbone.Modal');}};Modal.prototype.getOption=function(option){if(!option){return;}if(this.options&&__indexOf.call(this.options,option)>=0&&this.options[option]!=null){return this.options[option];}else{return this[option];}};Modal.prototype.serializeData=function(){var data;data={};if(this.model){data=_.extend(data,this.model.toJSON());}if(this.collection){data=_.extend(data,{items:this.collection.toJSON()});}return data;};Modal.prototype.delegateModalEvents=function(){var cancelEl,key,match,selector,submitEl,trigger,_results;this.active=true;cancelEl=this.getOption('cancelEl');submitEl=this.getOption('submitEl');if(submitEl){this.$el.on('click',submitEl,this.triggerSubmit);}if(cancelEl){this.$el.on('click',cancelEl,this.triggerCancel);}_results=[];for(key in this.views){if(_.isString(key)&&key!=='length'){match=key.match(/^(\S+)\s*(.*)$/);trigger=match[1];selector=match[2];_results.push(this.$el.on(trigger,selector,this.views[key],this.triggerView));}else{_results.push(void 0);}}return _results;};Modal.prototype.undelegateModalEvents=function(){var cancelEl,key,match,selector,submitEl,trigger,_results;this.active=false;cancelEl=this.getOption('cancelEl');submitEl=this.getOption('submitEl');if(submitEl){this.$el.off('click',submitEl,this.triggerSubmit);}if(cancelEl){this.$el.off('click',cancelEl,this.triggerCancel);}_results=[];for(key in this.views){if(_.isString(key)&&key!=='length'){match=key.match(/^(\S+)\s*(.*)$/);trigger=match[1];selector=match[2];_results.push(this.$el.off(trigger,selector,this.views[key],this.triggerView));}else{_results.push(void 0);}}return _results;};Modal.prototype.checkKey=function(e){if(this.active){switch(e.keyCode){case 27:return this.triggerCancel(e);case 13:return this.triggerSubmit(e);}}};Modal.prototype.clickOutside=function(e){var _ref;if(((_ref=this.outsideElement)!=null?_ref.hasClass(""+this.prefix+"-wrapper"):void 0)&&this.active){return this.triggerCancel();}};Modal.prototype.clickOutsideElement=function(e){return this.outsideElement=Backbone$2.$(e.target);};Modal.prototype.buildTemplate=function(template,data){var templateFunction;if(typeof template==='function'){templateFunction=template;}else{templateFunction=_.template(Backbone$2.$(template).html());}return templateFunction(data);};Modal.prototype.buildView=function(viewType,options){var view;if(!viewType){return;}if(options&&_.isFunction(options)){options=options();}if(_.isFunction(viewType)){view=new viewType(options||this.args[0]);if(view instanceof Backbone$2.View){return{el:view.render().$el,view:view};}else{return{el:viewType(options||this.args[0])};}}return{view:viewType,el:viewType.$el};};Modal.prototype.triggerView=function(e){var index,instance,key,options,_base,_base1,_ref;if(e!=null){if(typeof e.preventDefault==="function"){e.preventDefault();}}options=e.data;instance=this.buildView(options.view,options.viewOptions);if(this.currentView){this.previousView=this.currentView;if(!((_ref=options.openOptions)!=null?_ref.skipSubmit:void 0)){if((typeof(_base=this.previousView).beforeSubmit==="function"?_base.beforeSubmit(e):void 0)===false){return;}if(typeof(_base1=this.previousView).submit==="function"){_base1.submit();}}}this.currentView=instance.view||instance.el;index=0;for(key in this.views){if(options.view===this.views[key].view){this.currentIndex=index;}index++;}if(options.onActive){if(_.isFunction(options.onActive)){options.onActive(this);}else if(_.isString(options.onActive)){this[options.onActive].call(this,options);}}if(this.shouldAnimate){return this.animateToView(instance.el);}else{this.shouldAnimate=true;return this.$(this.viewContainerEl).html(instance.el);}};Modal.prototype.animateToView=function(view){var container,newHeight,previousHeight,style,tester,_base,_ref;style={position:'relative',top:-9999,left:-9999};tester=Backbone$2.$('<tester/>').css(style);tester.html(this.$el.clone().css(style));if(Backbone$2.$('tester').length!==0){Backbone$2.$('tester').replaceWith(tester);}else{Backbone$2.$('body').append(tester);}if(this.viewContainer){container=tester.find(this.viewContainer);}else{container=tester.find("."+this.prefix+"-modal");}container.removeAttr('style');previousHeight=container.outerHeight();container.html(view);newHeight=container.outerHeight();if(previousHeight===newHeight){this.$(this.viewContainerEl).html(view);if(typeof(_base=this.currentView).onShow==="function"){_base.onShow();}return(_ref=this.previousView)!=null?typeof _ref.destroy==="function"?_ref.destroy():void 0:void 0;}else{if(this.animate){this.$(this.viewContainerEl).css({opacity:0});return this.$(this.viewContainerEl).velocity({height:newHeight},100,function(_this){return function(){var _base1,_ref1;_this.$(_this.viewContainerEl).css({opacity:1}).removeAttr('style');_this.$(_this.viewContainerEl).html(view);if(typeof(_base1=_this.currentView).onShow==="function"){_base1.onShow();}return(_ref1=_this.previousView)!=null?typeof _ref1.destroy==="function"?_ref1.destroy():void 0:void 0;};}(this));}else{return this.$(this.viewContainerEl).css({height:newHeight}).html(view);}}};Modal.prototype.triggerSubmit=function(e){var _ref,_ref1;if(e!=null){e.preventDefault();}if(Backbone$2.$(e.target).is('textarea')){return;}if(this.beforeSubmit){if(this.beforeSubmit(e)===false){return;}}if(this.currentView&&this.currentView.beforeSubmit){if(this.currentView.beforeSubmit(e)===false){return;}}if(!this.submit&&!((_ref=this.currentView)!=null?_ref.submit:void 0)&&!this.getOption('submitEl')){return this.triggerCancel();}if((_ref1=this.currentView)!=null){if(typeof _ref1.submit==="function"){_ref1.submit();}}if(typeof this.submit==="function"){this.submit();}if(this.regionEnabled){return this.trigger('modal:destroy');}else{return this.destroy();}};Modal.prototype.triggerCancel=function(e){if(e!=null){e.preventDefault();}if(this.beforeCancel){if(this.beforeCancel()===false){return;}}if(typeof this.cancel==="function"){this.cancel();}if(this.regionEnabled){return this.trigger('modal:destroy');}else{return this.destroy();}};Modal.prototype.destroy=function(){var removeViews;Backbone$2.$('body').off('keyup.bbm',this.checkKey);this.$el.off('mouseup.bbm',this.clickOutsideElement);this.$el.off('click.bbm',this.clickOutside);Backbone$2.$('tester').remove();if(typeof this.onDestroy==="function"){this.onDestroy();}this.shouldAnimate=false;this.modalEl.addClass(""+this.prefix+"-modal--destroy");removeViews=function(_this){return function(){var _ref;if((_ref=_this.currentView)!=null){if(typeof _ref.remove==="function"){_ref.remove();}}return _this.remove();};}(this);if(this.$el.velocity&&this.animate){this.$el.velocity('fadeOut',{duration:200});return _.delay(function(){return removeViews();},200);}else{return removeViews();}};Modal.prototype.openAt=function(options){var atIndex,attr,i,key,view;if(_.isNumber(options)){atIndex=options;}else if(_.isNumber(options._index)){atIndex=options._index;}i=0;for(key in this.views){if(key!=='length'){if(_.isNumber(atIndex)){if(i===atIndex){view=this.views[key];}i++;}else if(_.isObject(options)){for(attr in this.views[key]){if(options[attr]===this.views[key][attr]){view=this.views[key];}}}}}if(view){this.currentIndex=_.indexOf(this.views,view);this.triggerView({data:_.extend(view,{openOptions:options})});}return this;};Modal.prototype.next=function(options){if(options==null){options={};}if(this.currentIndex+1<this.views.length){return this.openAt(_.extend(options,{_index:this.currentIndex+1}));}};Modal.prototype.previous=function(options){if(options==null){options={};}if(this.currentIndex-1<this.views.length-1){return this.openAt(_.extend(options,{_index:this.currentIndex-1}));}};return Modal;}(Backbone$2.View);Backbone$2.Modal=Modal;
 
 /**
  * Backbone Forms v0.13.0
@@ -2474,7 +2474,7 @@ var __bind=function __bind(fn,me){return function(){return fn.apply(me,arguments
  * 
  * License and more information at:
  * http://github.com/powmedia/backbone-forms
- */var root$3=typeof self=='object'&&self.self===self&&self||typeof global=='object'&&global.global===global&&global; var Form=Backbone$1.View.extend({/**
+ */var root$3=typeof self=='object'&&self.self===self&&self||typeof global=='object'&&global.global===global&&global; var Form=Backbone$2.View.extend({/**
    * Constructor
    * 
    * @param {Object} [options.schema]
@@ -2574,12 +2574,12 @@ field.editor.focus();},/**
    * Manages the hasFocus property
    *
    * @param {String} event
-   */trigger:function trigger(event){if(event==='focus'){this.hasFocus=true;}else if(event==='blur'){this.hasFocus=false;}return Backbone$1.View.prototype.trigger.apply(this,arguments);},/**
+   */trigger:function trigger(event){if(event==='focus'){this.hasFocus=true;}else if(event==='blur'){this.hasFocus=false;}return Backbone$2.View.prototype.trigger.apply(this,arguments);},/**
    * Override default remove function in order to remove embedded views
    *
    * TODO: If editors are included directly with data-editors="x", they need to be removed
    * May be best to use XView to manage adding/removing views
-   */remove:function remove(){_.each(this.fieldsets,function(fieldset){fieldset.remove();});_.each(this.fields,function(field){field.remove();});return Backbone$1.View.prototype.remove.apply(this,arguments);}},{//STATICS
+   */remove:function remove(){_.each(this.fieldsets,function(fieldset){fieldset.remove();});_.each(this.fields,function(field){field.remove();});return Backbone$2.View.prototype.remove.apply(this,arguments);}},{//STATICS
 template:_.template('\
     <form data-fieldsets></form>\
   ',null,root$3.templateSettings),templateSettings:{evaluate:/<%([\s\S]+?)%>/g,interpolate:/<%=([\s\S]+?)%>/g,escape:/<%-([\s\S]+?)%>/g},editors:{}});//==================================================================================================
@@ -2593,7 +2593,7 @@ if(value===null||value===undefined||value==='')return;if(!options.regexp.test(va
 if(value===null||value===undefined||value==='')return;if(value!==attrs[options.field])return err;};};return validators;}();//==================================================================================================
 //FIELDSET
 //==================================================================================================
-Form.Fieldset=Backbone$1.View.extend({/**
+Form.Fieldset=Backbone$2.View.extend({/**
    * Constructor
    *
    * Valid fieldset schemas:
@@ -2631,7 +2631,7 @@ schema.legend=schema.legend||null;return schema;},/**
 //Render fields
 $fieldset.find('[data-fields]').add($fieldset).each(function(i,el){var $container=jQuery(el),selection=$container.attr('data-fields');if(_.isUndefined(selection))return;_.each(fields,function(field){$container.append(field.render().el);});});this.setElement($fieldset);return this;},/**
    * Remove embedded views then self
-   */remove:function remove(){_.each(this.fields,function(field){field.remove();});Backbone$1.View.prototype.remove.call(this);}},{//STATICS
+   */remove:function remove(){_.each(this.fields,function(field){field.remove();});Backbone$2.View.prototype.remove.call(this);}},{//STATICS
 template:_.template('\
     <fieldset data-fields>\
       <% if (legend) { %>\
@@ -2641,7 +2641,7 @@ template:_.template('\
   ',null,Form.templateSettings)});//==================================================================================================
 //FIELD
 //==================================================================================================
-Form.Field=Backbone$1.View.extend({/**
+Form.Field=Backbone$2.View.extend({/**
    * Constructor
    * 
    * @param {Object} options.key
@@ -2728,7 +2728,7 @@ this.$('[data-error]').empty();},/**
    * Remove focus from the editor
    */blur:function blur(){this.editor.blur();},/**
    * Remove the field and editor views
-   */remove:function remove(){this.editor.remove();Backbone$1.View.prototype.remove.call(this);}},{//STATICS
+   */remove:function remove(){this.editor.remove();Backbone$2.View.prototype.remove.call(this);}},{//STATICS
 template:_.template('\
     <div>\
       <label for="<%= editorId %>"><%= title %></label>\
@@ -2762,7 +2762,7 @@ Form.NestedField=Form.Field.extend({template:_.template(jQuery.trim('\
  * @param {Object} [options.schema]     Field schema; may be required by some editors
  * @param {Object} [options.validators] Validators; falls back to those stored on schema
  * @param {Object} [options.form]       The form
- */Form.Editor=Form.editors.Base=Backbone$1.View.extend({defaultValue:null,hasFocus:false,initialize:function initialize(options){var options=options||{};//Set initial value
+ */Form.Editor=Form.editors.Base=Backbone$2.View.extend({defaultValue:null,hasFocus:false,initialize:function initialize(options){var options=options||{};//Set initial value
 if(options.model){if(!options.key)throw new Error("Missing option: 'key'");this.model=options.model;this.value=this.model.get(options.key);}else if(options.value!==undefined){this.value=options.value;}if(this.value===undefined)this.value=this.defaultValue;//Store important data
 _.extend(this,_.pick(options,'key','form'));var schema=this.schema=options.schema||{};this.validators=options.validators||schema.validators;//Main attributes
 this.$el.attr('id',this.id);this.$el.attr('name',this.getName());if(schema.editorClass)this.$el.addClass(schema.editorClass);if(schema.editorAttrs)this.$el.attr(schema.editorAttrs);},/**
@@ -2804,7 +2804,7 @@ _.every(validators,function(validator){error=getValidator(validator)(value,formV
    * Set this.hasFocus, or call parent trigger()
    *
    * @param {String} event
-   */trigger:function trigger(event){if(event==='focus'){this.hasFocus=true;}else if(event==='blur'){this.hasFocus=false;}return Backbone$1.View.prototype.trigger.apply(this,arguments);},/**
+   */trigger:function trigger(event){if(event==='focus'){this.hasFocus=true;}else if(event==='blur'){this.hasFocus=false;}return Backbone$2.View.prototype.trigger.apply(this,arguments);},/**
    * Returns a validation function based on the type defined in the schema
    *
    * @param {RegExp|String|Function} validator
@@ -2864,7 +2864,7 @@ var newVal=this.$el.val();if(event.charCode!=undefined){newVal=newVal+String.fro
    *
    * @param {Mixed} options
    */setOptions:function setOptions(options){var self=this;//If a collection was passed, check if it needs fetching
-if(options instanceof Backbone$1.Collection){var collection=options;//Don't do the fetch if it's already populated
+if(options instanceof Backbone$2.Collection){var collection=options;//Don't do the fetch if it's already populated
 if(collection.length>0){this.renderOptions(options);}else{collection.fetch({success:function success(collection){self.renderOptions(options);}});}}//If a function was passed, run it to get the options
 else if(_.isFunction(options)){options(function(result){self.renderOptions(result);},self);}//Otherwise, ready to go straight to renderOptions
 else{this.renderOptions(options);}},/**
@@ -2878,7 +2878,7 @@ $select.html(html);//Select correct option
 this.setValue(this.value);},_getOptionsHtml:function _getOptionsHtml(options){var html;//Accept string of HTML
 if(_.isString(options)){html=options;}//Or array
 else if(_.isArray(options)){html=this._arrayToHtml(options);}//Or Backbone collection
-else if(options instanceof Backbone$1.Collection){html=this._collectionToHtml(options);}else if(_.isFunction(options)){var newOptions;options(function(opts){newOptions=opts;},this);html=this._getOptionsHtml(newOptions);//Or any object
+else if(options instanceof Backbone$2.Collection){html=this._collectionToHtml(options);}else if(_.isFunction(options)){var newOptions;options(function(opts){newOptions=opts;},this);html=this._getOptionsHtml(newOptions);//Or any object
 }else{html=this._objectToHtml(options);}return html;},getValue:function getValue(){return this.$el.val();},setValue:function setValue(value){this.$el.val(value);},focus:function focus(){if(this.hasFocus)return;this.$el.focus();},blur:function blur(){if(!this.hasFocus)return;this.$el.blur();},/**
    * Transforms a collection into HTML ready to use in the renderOptions method
    * @param {Backbone.Collection}
@@ -2938,7 +2938,7 @@ this.value={};//Init
 Form.editors.Base.prototype.initialize.call(this,options);//Check required options
 if(!this.form)throw new Error('Missing required option "form"');if(!this.schema.subSchema)throw new Error("Missing required 'schema.subSchema' option for Object editor");},render:function render(){//Get the constructor for creating the nested form; i.e. the same constructor as used by the parent form
 var NestedForm=this.form.constructor;//Create the nested form
-this.nestedForm=new NestedForm({schema:this.schema.subSchema,data:this.value,idPrefix:this.id+'_',Field:NestedForm.NestedField});this._observeFormEvents();this.$el.html(this.nestedForm.render().el);if(this.hasFocus)this.trigger('blur',this);return this;},getValue:function getValue(){if(this.nestedForm)return this.nestedForm.getValue();return this.value;},setValue:function setValue(value){this.value=value;this.render();},focus:function focus(){if(this.hasFocus)return;this.nestedForm.focus();},blur:function blur(){if(!this.hasFocus)return;this.nestedForm.blur();},remove:function remove(){this.nestedForm.remove();Backbone$1.View.prototype.remove.call(this);},validate:function validate(){return this.nestedForm.validate();},_observeFormEvents:function _observeFormEvents(){if(!this.nestedForm)return;this.nestedForm.on('all',function(){// args = ["key:change", form, fieldEditor]
+this.nestedForm=new NestedForm({schema:this.schema.subSchema,data:this.value,idPrefix:this.id+'_',Field:NestedForm.NestedField});this._observeFormEvents();this.$el.html(this.nestedForm.render().el);if(this.hasFocus)this.trigger('blur',this);return this;},getValue:function getValue(){if(this.nestedForm)return this.nestedForm.getValue();return this.value;},setValue:function setValue(value){this.value=value;this.render();},focus:function focus(){if(this.hasFocus)return;this.nestedForm.focus();},blur:function blur(){if(!this.hasFocus)return;this.nestedForm.blur();},remove:function remove(){this.nestedForm.remove();Backbone$2.View.prototype.remove.call(this);},validate:function validate(){return this.nestedForm.validate();},_observeFormEvents:function _observeFormEvents(){if(!this.nestedForm)return;this.nestedForm.on('all',function(){// args = ["key:change", form, fieldEditor]
 var args=_.toArray(arguments);args[1]=this;// args = ["key:change", this=objectEditor, fieldEditor]
 this.trigger.apply(this,args);},this);}});/**
  * NestedModel editor
@@ -3027,18 +3027,18 @@ template:_.template('\
   ',null,Form.templateSettings),//The date editor to use (constructor function, not instance)
 DateEditor:Form.editors.Date});//Metadata
 Form.VERSION='0.13.0';//Exports
-Backbone$1.Form=Form;
+Backbone$2.Form=Form;
 
 jQuery.fn.waitforChild=function(onFound,querySelector,once){// allows for an object single parameter
 if(typeof arguments[0]==='object'){once=arguments[0].once||false;querySelector=arguments[0].querySelector||null;onFound=arguments[0].onFound;}if(!onFound){onFound=function onFound(){};}var $this=this;// If no querySelector was asked, and the element has children, apply the onFound function either to the first or to all of them
 if(!querySelector&&$this.children().length){if(once){onFound($this.children().first());}else{$this.children().each(function(key,element){onFound(jQuery(element));});}// If the element already has matching children, apply the onFound function either to the first or to all of them
 }else if($this.find(querySelector).length!==0){if(once){onFound($this.find(querySelector).first());}else{$this.find(querySelector).each(function(key,element){onFound(jQuery(element));});}}else{if($this.length===0){console.warn("Can't attach an observer to a null node",$this);}else{// Otherwise, set a new MutationObserver and inspect each new inserted child from now on.
-var observer=new MutationObserver(function(mutations){var _this=this;mutations.forEach(function(mutation){if(mutation.addedNodes){if(!querySelector){onFound(jQuery(mutation.addedNodes[0]));if(once){_this.disconnect();}}else{for(var i=0;i<mutation.addedNodes.length;++i){var addedNode=mutation.addedNodes[i];if(jQuery(addedNode).is(querySelector)){onFound(jQuery(addedNode));if(once){_this.disconnect();break;}}}}}});});observer.observe($this[0],{childList:true,subtree:true,attributes:false,characterData:false});}}return $this;};var ig_backbone = {$:jQuery,_:_,Backbone:Backbone$1};
+var observer=new MutationObserver(function(mutations){var _this=this;mutations.forEach(function(mutation){if(mutation.addedNodes){if(!querySelector){onFound(jQuery(mutation.addedNodes[0]));if(once){_this.disconnect();}}else{for(var i=0;i<mutation.addedNodes.length;++i){var addedNode=mutation.addedNodes[i];if(jQuery(addedNode).is(querySelector)){onFound(jQuery(addedNode));if(once){_this.disconnect();break;}}}}}});});observer.observe($this[0],{childList:true,subtree:true,attributes:false,characterData:false});}}return $this;};
 
 exports.$ = jQuery;
 exports._ = _;
-exports.Backbone = Backbone$1;
-exports['default'] = ig_backbone;
+exports.Backbone = Backbone$2;
+exports['default'] = Backbone$2;
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
