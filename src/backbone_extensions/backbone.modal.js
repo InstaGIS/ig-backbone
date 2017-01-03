@@ -78,11 +78,11 @@ var Modal = ((_super) => {
       this.onRender();
     }
     this.delegateModalEvents();
-    if (this.$el.velocity && this.animate) {
+    if (this.$el.fadeIn && this.animate) {
       this.modalEl.css({
         opacity: 0
       });
-      this.$el.velocity('fadeIn', {
+      this.$el.fadeIn({
         duration: 100,
         complete: this.rendererCompleted
       });
@@ -336,7 +336,7 @@ var Modal = ((_super) => {
         this.$(this.viewContainerEl).css({
           opacity: 0
         });
-        return this.$(this.viewContainerEl).velocity({
+        return this.$(this.viewContainerEl).animate({
           height: newHeight
         }, 100, (function (_this) {
           return function () {
@@ -436,8 +436,8 @@ var Modal = ((_super) => {
         return _this.remove();
       };
     })(this);
-    if (this.$el.velocity && this.animate) {
-      this.$el.velocity('fadeOut', {
+    if (this.$el.fadeOut && this.animate) {
+      this.$el.fadeOut({
         duration: 200
       });
       return _.delay(function () {
