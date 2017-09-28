@@ -3,7 +3,8 @@
   "version": "17.2.1",
   "description": "Backbone and Backgrid as ES6 modules, with bundled plugins and extensions",
   "author": "Felipe Figueroa  <amenadiel@gmail.com>",
-  "contributors": [{
+  "contributors": [
+    {
       "name": "José Salazar",
       "email": "jolsalazar@gmail.com",
       "role": "Senior Developer"
@@ -36,8 +37,8 @@
   "private": true,
   "dependencies": {},
   "devDependencies": {
-    "babel-eslint": "^7.1.1",
-    "eslint": "^3.13.1",
+    "babel-eslint": "^7.2.3",
+    "eslint": "^3.19.0",
     "jasmine-core": "^2.5.2",
     "jspm": "^0.17.0-beta.45",
     "karma": "^1.1.1",
