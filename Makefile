@@ -3,10 +3,10 @@ VERSION = $(shell cat package.json | sed -n 's/.*"version": "\([^"]*\)",/\1/p')
 SHELL = /usr/bin/env bash
 
 default: build
-.PHONY: ig_backbone ig_backgrid test build ig_backbone_bundle ig_backgrid_bundle backbone backgrid backgrid_mini
+.PHONY: ig_backbone test build ig_backbone_bundle 
 
  
-build: backbone backgrid
+build: ig_backbone 	ig_backbone_bundle
 
 version:
 	@echo $(VERSION)
@@ -17,25 +17,18 @@ install:
 
 
 test:
-	$$(npm bin)/grunt karma
+	$$(npm bin)/karma start
+	$$(npm bin)/karma start karma.modal.conf.js
 
-backbone: 	ig_backbone 	ig_backbone_bundle
-
-backgrid: 	ig_backgrid 	ig_backgrid_bundle
+ 
 
 ig_backbone:
-	$$(npm bin)/jspm build src/ig_backbone dist/ig_backbone.js --format esm --skip-source-maps --skip-encode-names
+	$$(npm bin)/jspm build src dist/ig_backbone.js --format esm --skip-source-maps --skip-encode-names
 
 ig_backbone_bundle:	
-	$$(npm bin)/jspm build src/ig_backbone dist/ig_backbone.bundle.js --format umd --skip-encode-names --global-name window 
+	$$(npm bin)/jspm build src dist/ig_backbone.bundle.js --format umd --skip-encode-names --global-name window --skip-source-maps 
 
 	
-	
-ig_backgrid:
-	$$(npm bin)/jspm build src/ig_backgrid dist/ig_backgrid.js --format esm --skip-source-maps --skip-encode-names  --config jspm.backgrid.amd.json  --global-deps '{"backbone":"Backbone"}' 
-
-ig_backgrid_bundle:	
-	$$(npm bin)/jspm build src/ig_backgrid dist/ig_backgrid.bundle.js  --format umd --skip-encode-names --global-name window --config jspm.backgrid.amd.json  --global-deps '{"backbone":"Backbone"}' 
 
 
 update_version:

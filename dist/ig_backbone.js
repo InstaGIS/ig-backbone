@@ -16,7 +16,7 @@ var root = typeof self == 'object' && self.self === self && self || typeof globa
 var previousBackbone = root.Backbone;
 
 // Create a local reference to a common array method we'll want to use later.
-var slice$1 = Array.prototype.slice;
+var slice = Array.prototype.slice;
 
 // Current version of the library. Keep in sync with `package.json`.
 var Backbone$1 = {
@@ -61,7 +61,7 @@ var addMethod = function addMethod(length, method, attribute) {
       };
     default:
       return function () {
-        var args = slice$1.call(arguments);
+        var args = slice.call(arguments);
         args.unshift(this[attribute]);
         return _[method].apply(_, args);
       };
@@ -561,7 +561,7 @@ _.extend(Model.prototype, Events, {
 
   // Proxy `Backbone.sync` by default -- but override this if you need
   // custom syncing semantics for *this* particular model.
-  sync: function sync() {
+  sync: function sync$1() {
     return Backbone$1.sync.apply(this, arguments);
   },
 
@@ -889,7 +889,7 @@ var modelMethods = {
 addUnderscoreMethods(Model, modelMethods, 'attributes');
 
 // Create a local reference to a common array method we'll want to use later.
-var _slice = Array.prototype.slice;
+var slice$1 = Array.prototype.slice;
 
 // Backbone.Collection
 // -------------------
@@ -966,7 +966,7 @@ _.extend(Collection.prototype, Events, {
   },
 
   // Proxy `Backbone.sync` by default.
-  sync: function sync() {
+  sync: function sync$1() {
     return Backbone$1.sync.apply(this, arguments);
   },
 
@@ -1163,7 +1163,7 @@ _.extend(Collection.prototype, Events, {
 
   // Slice out a sub-array of models from the collection.
   slice: function slice() {
-    return _slice.apply(this.models, arguments);
+    return slice$1.apply(this.models, arguments);
   },
 
   // Get a model from the set by id, cid, model object with id or cid
@@ -1901,9 +1901,9 @@ _.extend(History.prototype, Events, {
 
   // Add a route to be tested when the fragment changes. Routes added later
   // may override previous routes.
-  route: function route(_route, callback) {
+  route: function route(_route2, callback) {
     this.handlers.unshift({
-      route: _route,
+      route: _route2,
       callback: callback
     });
   },
@@ -2076,6 +2076,7 @@ Backbone$1.History = History;
 
 // Create the default Backbone.history.
 Backbone$1.history = new History();
+var sync$1 = Backbone$1.sync;
 
 /**
  * Backbone localStorage Adapter
