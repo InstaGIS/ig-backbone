@@ -13,7 +13,7 @@
     "deps": {},
     "peerDeps": {}
   },
-  "github:huasofoundries/backbone_es6@17.1.1": {
+  "github:huasofoundries/backbone_es6@1.0.0": {
     "deps": {},
     "peerDeps": {
       "plugin-babel": "npm:systemjs-plugin-babel@^0.0.25"

@@ -1,21 +1,9 @@
 {
   "name": "ig_backbone",
-  "version": "17.2.1",
+  "version": "17.2.2",
   "description": "Backbone and Backgrid as ES6 modules, with bundled plugins and extensions",
   "author": "Felipe Figueroa  <amenadiel@gmail.com>",
-  "contributors": [
-    {
-      "name": "José Salazar",
-      "email": "jolsalazar@gmail.com",
-      "role": "Senior Developer"
-    },
-    {
-      "name": "Gabriel Tamayo",
-      "email": "gabriel.tamayo@gmail.com",
-      "role": "Junion Developer"
-    }
-  ],
-  "license": "propietary",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/InstaGIS/ig-backbone"
@@ -42,7 +30,6 @@
     "jasmine-core": "^2.5.2",
     "jspm": "^0.17.0-beta.45",
     "karma": "^1.1.1",
-    "karma-coverage": "^1.0.0",
     "karma-jasmine": "^1.1.0",
     "karma-mocha-reporter": "^2.2.4",
     "karma-phantomjs-launcher": "^1.0.1",
@@ -59,7 +46,7 @@
     },
     "dependencies": {},
     "devDependencies": {
-      "backbone": "github:huasofoundries/backbone_es6@^17",
+      "backbone": "github:huasofoundries/backbone_es6@^1",
       "fs": "npm:jspm-nodelibs-fs@^0.2.0",
       "path": "npm:jspm-nodelibs-path@^0.2.0",
       "process": "npm:jspm-nodelibs-process@^0.2.0"
