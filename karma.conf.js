@@ -3,19 +3,27 @@ module.exports = function(config) {
   console.log({ CHROME_BIN: process.env.CHROME_BIN }); // eslint-disable-line
 
   config.set({
-    browsers: ["HeadlessChrome"],
+    browsers: [
+      // "Chrome_without_security",
+      "HeadlessChrome"
+    ],
     customLaunchers: {
       HeadlessChrome: {
         base: "ChromeHeadless",
         flags: ["--no-sandbox"]
+      },
+      Chrome_without_security: {
+        base: "Chrome",
+        flags: ["--disable-web-security", "--disable-site-isolation-trials"]
       }
     },
+
     basePath: "",
     port: 9877,
     colors: true,
     logLevel: "INFO",
     autoWatch: false,
-    //browsers: ["PhantomJS"],
+
     singleRun: true,
     frameworks: ["qunit"],
     reporters: ["progress"],

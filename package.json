@@ -1,6 +1,6 @@
 {
   "name": "ig_backbone",
-  "version": "17.2.2",
+  "version": "19.0.1",
   "description": "Backbone and Backgrid as ES6 modules, with bundled plugins and extensions",
   "author": "Felipe Figueroa  <amenadiel@gmail.com>",
   "license": "MIT",
@@ -28,7 +28,7 @@
     "babel-eslint": "^7.2.3",
     "eslint": "^3.19.0",
     "jasmine-core": "^2.5.2",
-    "jspm": "^0.17.0-beta.45",
+    "jspm": "0.17.0-beta.45",
     "karma": "^1.1.1",
     "karma-chrome-launcher": "^3.1.0",
     "karma-jasmine": "^1.1.0",
