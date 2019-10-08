@@ -1,13 +1,17 @@
 {
+  "npm:jspm-nodelibs-fs@0.2.1": {
+    "deps": {},
+    "peerDeps": {}
+  },
+  "npm:systemjs-plugin-babel@0.0.25": {
+    "deps": {},
+    "peerDeps": {}
+  },
   "npm:jspm-nodelibs-path@0.2.3": {
     "deps": {},
     "peerDeps": {
       "process": "npm:jspm-nodelibs-process@^0.2.0"
     }
-  },
-  "npm:jspm-nodelibs-fs@0.2.1": {
-    "deps": {},
-    "peerDeps": {}
   },
   "npm:jspm-nodelibs-process@0.2.1": {
     "deps": {},
@@ -18,9 +22,5 @@
     "peerDeps": {
       "plugin-babel": "npm:systemjs-plugin-babel@^0.0.25"
     }
-  },
-  "npm:systemjs-plugin-babel@0.0.25": {
-    "deps": {},
-    "peerDeps": {}
   }
 }

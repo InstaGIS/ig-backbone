@@ -1,4 +1,6 @@
 VERSION = $(shell cat package.json | sed -n 's/.*"version": "\([^"]*\)",/\1/p')
+current_babel_eslint = $(shell cat package.json | sed -n 's/.*"babel-eslint": "\([^"]*\)",/\1/p')
+current_eslint = $(shell cat package.json | sed -n 's/.*"eslint": "\([^"]*\)",/\1/p')
 
 SHELL = /usr/bin/env bash
 
@@ -20,6 +22,10 @@ test:
 	$$(npm bin)/karma start
 	$$(npm bin)/karma start karma.modal.conf.js
 
+update_eslint:
+	@echo  -e "Current eslint is $(GREEN)$(current_eslint)$(WHITE), current babel-eslint is $(GREEN)$(current_babel_eslint)$(WHITE)" ;\
+	npm remove --save-dev eslint babel-eslint ;\
+	npm install --save-dev eslint babel-eslint
  
 
 ig_backbone:
